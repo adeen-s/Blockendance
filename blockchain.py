@@ -35,7 +35,8 @@ class Blockchain(object):
 
     @staticmethod
     def hash(block):
-        pass
+        block_string = json.dumps(block, sort_keys=True).encode()
+        return hashlib.sha256(block_string).hexdigest()
 
     @property
     def last_block(self):
