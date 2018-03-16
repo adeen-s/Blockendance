@@ -1,60 +1,139 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<script type="text/javascript" src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-
-<title>Blockendance</title>
-{% if name %}
-<h1>Hello {{ name }}, enter the details of the class</h1>
-{% endif %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if view_mode %}View Records - {% endif %}Class Details - Blockendance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
 
 <body class="blue-grey lighten-4">
-    <div class="row">
-        <form class="col s12" id="form" name="form" action="/" method="post">
-            <div class="row">
-                {% if not name %}
-                <div class="input-field col s12">
-                    <label for="name">Your name</label>
-                    <input type="text" id="name" name="name" value="">
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 center-align">
+                <h4 class="blue-grey-text text-darken-2">
+                    {% if view_mode %}
+                        <i class="material-icons">search</i> Search Attendance Records
+                    {% else %}
+                        <i class="material-icons">class</i> Class Details
+                    {% endif %}
+                </h4>
+                {% if name and not view_mode %}
+                    <p class="flow-text">Hello {{ name }}, enter the details of the class</p>
                 {% endif %}
-                <div class="input-field col s12">
-                    <label for="number">Total Number of Students</label>
-                    <input type="number" id="number" name="number" value="50">
-                </div>
-                <div class="input-field col s12">
-                    <select id="course" name="course">
-                        <option value="IC">IC</option>
-                        <option value="IT">IT</option>
-                        <option value="IB">IB</option>
-                    </select>
-                    <label for="course">Course Code</label>
-                </div>
-                <div class="input-field col s12">
-                    <label for="year">Enrollment Year</label>
-                    <input type="text" id="year" name="year" value="2k16">
-                </div>
-                <div class="input-field col s12">
-                    <label for="date">Date</label>
-                    <input class="datepicker" type="text" id="date" name="date" value="{{ date }}">
-                </div>
-                <button class="btn waves-effect waves-light" type="submit" name="action">Next
-                    <i class="material-icons right">send</i>
-                </button>
             </div>
+        </div>
 
-        </form>
+        {% if error %}
+        <div class="row">
+            <div class="col s12">
+                <div class="card-panel red lighten-4 red-text text-darken-2">
+                    <i class="material-icons left">error</i>{{ error }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <form id="form" name="form" action="{% if view_mode %}/view.html{% else %}/{% endif %}" method="post">
+                            {% if name and not view_mode %}
+                                <input type="hidden" name="teacher_name" value="{{ name }}">
+                            {% endif %}
+
+                            <div class="row">
+                                {% if view_mode or not name %}
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">account_circle</i>
+                                    <input type="text" id="name" name="name" value="{{ name or '' }}" required>
+                                    <label for="name">Teacher Name</label>
+                                </div>
+                                {% endif %}
+
+                                <div class="input-field col s12 m6">
+                                    <i class="material-icons prefix">group</i>
+                                    <input type="number" id="number" name="number" value="30" min="1" max="100" required>
+                                    <label for="number">Total Number of Students</label>
+                                </div>
+
+                                <div class="input-field col s12 m6">
+                                    <i class="material-icons prefix">book</i>
+                                    <select id="course" name="course" required>
+                                        <option value="" disabled selected>Choose Course</option>
+                                        <option value="Computer Science">Computer Science</option>
+                                        <option value="Information Technology">Information Technology</option>
+                                        <option value="Electronics">Electronics</option>
+                                        <option value="Mechanical">Mechanical</option>
+                                        <option value="Civil">Civil</option>
+                                    </select>
+                                    <label for="course">Course</label>
+                                </div>
+
+                                <div class="input-field col s12 m6">
+                                    <i class="material-icons prefix">school</i>
+                                    <select id="year" name="year" required>
+                                        <option value="" disabled selected>Choose Year</option>
+                                        <option value="2024">2024</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2020">2020</option>
+                                    </select>
+                                    <label for="year">Enrollment Year</label>
+                                </div>
+
+                                <div class="input-field col s12 m6">
+                                    <i class="material-icons prefix">date_range</i>
+                                    <input class="datepicker" type="text" id="date" name="date" value="{{ date or '' }}" required>
+                                    <label for="date">Date</label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12 center-align">
+                                    <button class="btn waves-effect waves-light blue" type="submit">
+                                        {% if view_mode %}
+                                            <i class="material-icons left">search</i>Search Records
+                                        {% else %}
+                                            <i class="material-icons left">arrow_forward</i>Next
+                                        {% endif %}
+                                    </button>
+                                    <a href="/" class="btn waves-effect waves-light grey">
+                                        <i class="material-icons left">home</i>Home
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.js') }}"></script>
     <script type="text/javascript">
-    var form = document.getElementById("form") || null;
-    if(form) {
-        form.action = window.location.pathname;
-    }
-    var dpelem = document.querySelector('.datepicker');
-    var dpinstance = M.Datepicker.init(dpelem, {format:'yyyy-mm-dd'});
-    var fselem = document.querySelector('select');
-    var fsinstance = M.FormSelect.init(fselem, {});
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Materialize components
+            M.AutoInit();
+
+            // Initialize datepicker with proper format
+            var dpelem = document.querySelector('.datepicker');
+            if (dpelem) {
+                M.Datepicker.init(dpelem, {
+                    format: 'yyyy-mm-dd',
+                    defaultDate: new Date(),
+                    setDefaultDate: true
+                });
+            }
+
+            // Initialize select elements
+            var selects = document.querySelectorAll('select');
+            M.FormSelect.init(selects);
+        });
     </script>
 </body>
+</html>

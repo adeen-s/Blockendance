@@ -1,36 +1,85 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<script type="text/javascript" src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-
-<title>Blockendance</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockendance - Blockchain Attendance System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
 
 <body class="blue-grey lighten-4">
     <div class="container">
-    <div class="row">
-        <form action="/" method="post" class="col s12">
-            <div class="row valign-wrapper">
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">account_circle</i>
-                    <input type="text" id="name" name="name" value="">
-                    <label for="name">Enter your name</label>
-                </div>
-                <button class="btn waves-effect waves-light" type="submit" name="action">Next
-                    <i class="material-icons right">send</i>
-                </button>
-            </div>
-        </form>
-    </div>
-    <br />
-    <br />
-    <div class="row">
-            <div class="col s12">
-                <a class="btn" href="/view.html">View previous records</a>
-                <br />
-                <br />
-                <a class="btn" href="/result.html">Check integrity of blockchain</a>
+        <div class="row">
+            <div class="col s12 center-align">
+                <h3 class="blue-grey-text text-darken-2">
+                    <i class="material-icons large">school</i>
+                    Blockendance
+                </h3>
+                <p class="flow-text">Blockchain-based Attendance System</p>
             </div>
         </div>
-        </div
+
+        {% if error %}
+        <div class="row">
+            <div class="col s12">
+                <div class="card-panel red lighten-4 red-text text-darken-2">
+                    <i class="material-icons left">error</i>{{ error }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <form action="/" method="post" class="col s12">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input type="text" id="name" name="name" value="" required>
+                        <label for="name">Enter Teacher Name</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 center-align">
+                        <button class="btn waves-effect waves-light blue" type="submit" name="action">
+                            Start Attendance
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row">
+            <div class="col s12 center-align">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Other Actions</span>
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <a class="btn waves-effect waves-light green" href="/view.html">
+                                    <i class="material-icons left">search</i>
+                                    View Records
+                                </a>
+                            </div>
+                            <div class="col s12 m6">
+                                <a class="btn waves-effect waves-light orange" href="/result.html">
+                                    <i class="material-icons left">security</i>
+                                    Check Integrity
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.js') }}"></script>
+    <script>
+        // Initialize Materialize components
+        M.AutoInit();
+    </script>
 </body>
+</html>
