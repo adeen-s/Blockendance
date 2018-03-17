@@ -8,9 +8,6 @@ class Block:
         self.hash = self.hash_block()
 
     def hash_block(self):
-    sha = hashlib.sha256()
-    sha.update(str(self.index) +
-               str(self.timestamp) +
-               str(self.data) +
-               str(self.previous_hash))
-    return sha.hexdigest()
+        sha = hashlib.sha256()
+        sha.update(str(self.index).encode() + str(self.timestamp).encode() + str(self.data).encode() + str(self.prev_hash).encode())
+        return sha.hexdigest()
