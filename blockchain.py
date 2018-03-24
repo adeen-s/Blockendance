@@ -1,21 +1,22 @@
 import datetime as dt
 import hashlib
+from flask import Flask, request, render_template
 
 from genesis import create_genesis_block
 from newBlock import *
+from block import *
 
-class Block:
-    def __init__(self, index, timestamp, data, prev_hash):
-        self.index = index
-        self.timestamp = timestamp
-        self.data = data
-        self.prev_hash = prev_hash
-        self.hash = self.hash_block()
+app = Flask(__name__)
 
-    def hash_block(self):
-        sha = hashlib.sha256()
-        sha.update(str(self.index).encode() + str(self.timestamp).encode() + str(self.data).encode() + str(self.prev_hash).encode())
-        return sha.hexdigest()
+def checkIntegrity(chain):
+    for i, block in enumerate(chain):
+        if i < len(chain) - 1:
+            print("Checking integrity of block {}".format(i))
+            if block.hash_block() != chain[i+1].prev_hash:
+                print("Chain has been modified at block index {}".format(i))
+                break
+        else:
+            print("Chain has not been modified")
 
 blockchain = create_genesis_block()
 previous_block = blockchain[0]
@@ -31,8 +32,21 @@ for i in range(0, num_of_blocks):
     print ("Block #{} has been added to the blockchain!".format(block_to_add.index))
     print ("Hash: {}\n".format(block_to_add.hash))
 
-
 for i, block in enumerate(blockchain):
-    if(i == 19):
+    if(i == 15):
         block.data = "Hello There, Data changed"
     print(block.data)
+
+checkIntegrity(blockchain)
+
+@app.route('/', methods=['GET'])
+def hello():
+    return render_template("index.html", name="Adeen", date=dt.date.today())
+
+@app.route('/', methods=['POST'])
+def parse_request():
+    if(request.form.get("number")):
+        return render_template("attendance.html", number=request.form.get("number"))
+    elif(request.form.get("roll_no")):
+        return
+    return "Invalid POST request. This incident has been recorded."

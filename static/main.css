@@ -1,0 +1,12 @@
+body {
+    max-width: 500px;
+    margin: auto;
+}
+
+form  { display: table;      }
+
+p     { display: table-row;  }
+
+label { display: table-cell; }
+
+input { display: table-cell; }
