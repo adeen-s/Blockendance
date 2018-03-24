@@ -1,13 +1,14 @@
 <!doctype html>
 <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-<body>
-    <title>Hello</title>
-    {% if name %}
-    <h1>Hello {{ name }}!</h1>
-    {% else %}
-    <h1>Hello, World!</h1>
-    {% endif %}
 
+<title>Hello</title>
+{% if name %}
+<h1>Hello {{ name }}!</h1>
+{% else %}
+<h1>Hello, World!</h1>
+{% endif %}
+
+<body>
     <form action="/" method="post">
         <p>
             <label for="number">Total Number of Students</label>
@@ -22,9 +23,13 @@
             </select>
         </p>
         <p>
+            <label for="year">Enrollment Year</label>
+            <input type="text" id="year" name="year" value="2k16">
+        </p>
+        <p>
             <label for="date">Date</label>
             <input type="date" id="date" name="date" value="{{ date }}">
         </p>
-        <input type="submit" name="submitBtn" value="Next">
+        <input type="submit" name="NextBtn" value="Next">
     </form>
 </body>

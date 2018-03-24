@@ -46,7 +46,10 @@ def hello():
 @app.route('/', methods=['POST'])
 def parse_request():
     if(request.form.get("number")):
-        return render_template("attendance.html", number=request.form.get("number"))
+        return render_template("attendance.html",
+                                course=request.form.get("course"),
+                                year=request.form.get("year"),
+                                number=int(request.form.get("number")))
     elif(request.form.get("roll_no")):
         return
     return "Invalid POST request. This incident has been recorded."

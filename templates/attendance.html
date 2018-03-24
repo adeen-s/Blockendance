@@ -1,33 +1,30 @@
 <!doctype html>
 <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-<body>
-    <title>Hello</title>
-    {% if name %}
-    <h1>Hello {{ name }}!</h1>
-    {% else %}
-    <h1>Hello, World!</h1>
-    {% endif %}
 
-    
-<!--
-    <form action="/" method="post">
-        <p>
-            <label for="number">Total Number of Students</label>
-            <input type="number" id="number" name="number" value="50">
-        </p>
-        <p>
-            <label for="course">Course Code</label>
-            <select id="course" name="course">
-                <option value="IC">IC</option>
-                <option value="IT">IT</option>
-                <option value="IB">IB</option>
-            </select>
-        </p>
-        <p>
-            <label for="date">Date</label>
-            <input type="date" id="date" name="date" value="{{ date }}">
-        </p>
+<title>Hello</title>
+{% if name %}
+<h1>Hello {{ name }}!</h1>
+{% else %}
+<h1>Hello, World!</h1>
+{% endif %}
+
+<body>
+
+    <form action="attendance.html" method="post">
+
+        {%  for i in range(1, number + 1) %}
+            {{ course }}-{{ year }}-{{ "%02d" %i }}: &emsp;
+            Present
+            <input type="radio" name="roll_no{{ i }}" value="P">
+            Absent
+            <input type="radio" name="roll_no{{ i }}" value="A" checked="checked">
+            <br />
+            <br />
+        {% endfor %}
+        <br />
+        <br />
+        <br />
         <input type="submit" name="submitBtn" value="Submit">
+
     </form>
--->
 </body>
