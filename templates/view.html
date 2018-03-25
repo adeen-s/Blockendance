@@ -1,41 +1,208 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-<script type="text/javascript" src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-
-<title>Blockendance</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Attendance - Blockendance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
 
 <body class="blue-grey lighten-4">
-    <h3>Hello {{ name }}, here is the attendance data</h3>
-    <br />
-    <h6>Date: &emsp; {{ date }}</h6>
-    <br />
-    <br />
-    <table>
-        <thead>
-            <tr>
-                <th>Roll number</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {%  for i in range(1, number + 1) %}
-            <tr>
-                <td>{{ course }}-{{ year }}-{{ "%02d" %i }}</td>
-                <td>{{ status[i - 1] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col s12 center-align">
+                <h4 class="blue-grey-text text-darken-2">
+                    <i class="material-icons">visibility</i> Attendance Records
+                </h4>
+                {% if name %}
+                    <p class="flow-text">Records for {{ name }}</p>
+                {% endif %}
+            </div>
+        </div>
 
-    <button class="btn waves-effect waves-light" type="button" id="button" name="button">Go Back</button>
+        {% if error %}
+        <div class="row">
+            <div class="col s12">
+                <div class="card-panel red lighten-4 red-text text-darken-2">
+                    <i class="material-icons left">error</i>{{ error }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if success %}
+        <div class="row">
+            <div class="col s12">
+                <div class="card-panel green lighten-4 green-text text-darken-2">
+                    <i class="material-icons left">check_circle</i>{{ success }}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">
+                            <i class="material-icons left">class</i>
+                            Class Information
+                        </span>
+
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <div class="info-item">
+                                    <strong>Teacher:</strong> {{ name }}
+                                </div>
+                            </div>
+                            <div class="col s12 m6">
+                                <div class="info-item">
+                                    <strong>Date:</strong> {{ date }}
+                                </div>
+                            </div>
+                            <div class="col s12 m6">
+                                <div class="info-item">
+                                    <strong>Course:</strong> {{ course }}
+                                </div>
+                            </div>
+                            <div class="col s12 m6">
+                                <div class="info-item">
+                                    <strong>Year:</strong> {{ year }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if status %}
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">
+                            <i class="material-icons left">group</i>
+                            Attendance Data ({{ status|length }} students present)
+                        </span>
+
+                        <div class="attendance-summary">
+                            <div class="row">
+                                <div class="col s12 m4">
+                                    <div class="card-panel green lighten-5 center-align">
+                                        <h5 class="green-text">{{ status|length }}</h5>
+                                        <p>Present</p>
+                                    </div>
+                                </div>
+                                <div class="col s12 m4">
+                                    <div class="card-panel red lighten-5 center-align">
+                                        <h5 class="red-text">{{ number - status|length }}</h5>
+                                        <p>Absent</p>
+                                    </div>
+                                </div>
+                                <div class="col s12 m4">
+                                    <div class="card-panel blue lighten-5 center-align">
+                                        <h5 class="blue-text">{{ number }}</h5>
+                                        <p>Total</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="striped responsive-table">
+                            <thead>
+                                <tr>
+                                    <th><i class="material-icons left">person</i>Roll Number</th>
+                                    <th><i class="material-icons left">assignment_turned_in</i>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in range(1, number + 1) %}
+                                {% set roll_number = course + "-" + year + "-" + "%02d"|format(i) %}
+                                <tr>
+                                    <td>{{ roll_number }}</td>
+                                    <td>
+                                        {% if roll_number in status %}
+                                            <span class="green-text">
+                                                <i class="material-icons tiny">check_circle</i> Present
+                                            </span>
+                                        {% else %}
+                                            <span class="red-text">
+                                                <i class="material-icons tiny">cancel</i> Absent
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content center-align">
+                        <i class="material-icons large grey-text">search_off</i>
+                        <h5 class="grey-text">No Records Found</h5>
+                        <p>No attendance records found for the specified criteria.</p>
+                        <a href="/view.html" class="btn waves-effect waves-light blue">
+                            <i class="material-icons left">search</i>Search Again
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col s12 center-align">
+                <div class="card-action">
+                    <a href="/" class="btn waves-effect waves-light blue">
+                        <i class="material-icons left">home</i>Home
+                    </a>
+                    <a href="/view.html" class="btn waves-effect waves-light green">
+                        <i class="material-icons left">search</i>New Search
+                    </a>
+                    <a href="/result.html" class="btn waves-effect waves-light orange">
+                        <i class="material-icons left">security</i>Check Integrity
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.js') }}"></script>
     <script type="text/javascript">
-    function goBack() {
-        window.open("/", "_self");
-    }
-    var button = document.getElementById("button");
-    button.addEventListener("click", goBack);
+        document.addEventListener('DOMContentLoaded', function() {
+            M.AutoInit();
+
+            {% if success %}
+                M.toast({html: '{{ success }}', classes: 'green'});
+            {% elif error %}
+                M.toast({html: '{{ error }}', classes: 'red'});
+            {% endif %}
+        });
     </script>
 
+    <style>
+        .info-item {
+            margin: 10px 0;
+            padding: 5px 0;
+        }
+        .attendance-summary {
+            margin: 20px 0;
+        }
+        .card-action {
+            padding: 20px;
+        }
+        .card-action .btn {
+            margin: 5px;
+        }
+    </style>
 </body>
+</html>

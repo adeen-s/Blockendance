@@ -1,21 +1,152 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-<script type="text/javascript" src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-
-<title>Blockendance</title>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result - Blockendance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
 
 <body class="blue-grey lighten-4">
-    <h5>
-        {{ result }}
-    </h5>
-    <br />
-    <button class="btn waves-effect waves-light" type="button" id="button" name="button">Go Back</button>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 center-align">
+                <h4 class="blue-grey-text text-darken-2">
+                    <i class="material-icons">assignment_turned_in</i> Operation Result
+                </h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">
+                            {% if "Error" in result %}
+                                <i class="material-icons red-text">error</i> Error
+                            {% elif "verified" in result %}
+                                <i class="material-icons green-text">verified</i> Blockchain Status
+                            {% else %}
+                                <i class="material-icons blue-text">info</i> Result
+                            {% endif %}
+                        </span>
+
+                        <div class="result-content">
+                            {% if "Error" in result %}
+                                <div class="card-panel red lighten-4 red-text text-darken-2">
+                                    <i class="material-icons left">error</i>
+                                    {{ result }}
+                                </div>
+                            {% elif "verified" in result %}
+                                <div class="card-panel green lighten-4 green-text text-darken-2">
+                                    <i class="material-icons left">check_circle</i>
+                                    {{ result }}
+                                </div>
+                            {% elif "added" in result %}
+                                <div class="card-panel blue lighten-4 blue-text text-darken-2">
+                                    <i class="material-icons left">add_circle</i>
+                                    {{ result }}
+                                </div>
+                            {% else %}
+                                <div class="card-panel grey lighten-4 grey-text text-darken-2">
+                                    <i class="material-icons left">info</i>
+                                    {{ result }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        {% if stats %}
+                        <div class="blockchain-stats">
+                            <h6><i class="material-icons left">analytics</i>Blockchain Statistics</h6>
+                            <div class="row">
+                                <div class="col s12 m6">
+                                    <div class="card-panel blue lighten-5">
+                                        <h6 class="center-align">{{ stats.total_blocks }}</h6>
+                                        <p class="center-align grey-text">Total Blocks</p>
+                                    </div>
+                                </div>
+                                <div class="col s12 m6">
+                                    <div class="card-panel green lighten-5">
+                                        <h6 class="center-align">{{ stats.attendance_blocks }}</h6>
+                                        <p class="center-align grey-text">Attendance Records</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if stats.latest_block %}
+                            <div class="latest-block">
+                                <h6><i class="material-icons left">fiber_new</i>Latest Block</h6>
+                                <div class="card-panel white">
+                                    <p><strong>Index:</strong> {{ stats.latest_block.index }}</p>
+                                    <p><strong>Hash:</strong> <code>{{ stats.latest_block.hash[:20] }}...</code></p>
+                                    <p><strong>Timestamp:</strong> {{ stats.latest_block.timestamp }}</p>
+                                    {% if stats.latest_block.data.type == 'attendance' %}
+                                        <p><strong>Type:</strong> Attendance Record</p>
+                                        <p><strong>Teacher:</strong> {{ stats.latest_block.data.teacher_name }}</p>
+                                        <p><strong>Course:</strong> {{ stats.latest_block.data.course }}</p>
+                                        <p><strong>Students Present:</strong> {{ stats.latest_block.data.present_students|length }}</p>
+                                    {% else %}
+                                        <p><strong>Type:</strong> {{ stats.latest_block.data.type|title }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-action center-align">
+                        <a href="/" class="btn waves-effect waves-light blue">
+                            <i class="material-icons left">home</i>Home
+                        </a>
+                        <a href="/view.html" class="btn waves-effect waves-light green">
+                            <i class="material-icons left">search</i>View Records
+                        </a>
+                        {% if not stats %}
+                        <a href="/result.html" class="btn waves-effect waves-light orange">
+                            <i class="material-icons left">refresh</i>Check Again
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.js') }}"></script>
     <script type="text/javascript">
-        function goBack() {
-            window.open("/", "_self");
-        }
-        var button = document.getElementById("button");
-        button.addEventListener("click", goBack);
+        document.addEventListener('DOMContentLoaded', function() {
+            M.AutoInit();
+
+            // Show success toast if block was added
+            {% if "added" in result %}
+                M.toast({html: 'Attendance successfully recorded in blockchain!', classes: 'green'});
+            {% elif "verified" in result %}
+                M.toast({html: 'Blockchain integrity verified!', classes: 'green'});
+            {% elif "Error" in result %}
+                M.toast({html: 'An error occurred. Please try again.', classes: 'red'});
+            {% endif %}
+        });
     </script>
+
+    <style>
+        .result-content {
+            margin: 20px 0;
+        }
+        .blockchain-stats {
+            margin-top: 30px;
+        }
+        .latest-block {
+            margin-top: 20px;
+        }
+        code {
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
 </body>
+</html>

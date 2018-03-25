@@ -1,40 +1,179 @@
 <!DOCTYPE html>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<script type="text/javascript" src="{{ url_for('static', filename='js/materialize.js') }}"></script>
-
-<title>Blockendance</title>
-{% if name %}
-<h1>Hello {{ name }}, enter attendance status</h1>
-{% else %}
-<h1>Hello, World!</h1>
-{% endif %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance - Blockendance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
 
 <body class="blue-grey lighten-4">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 center-align">
+                <h4 class="blue-grey-text text-darken-2">
+                    <i class="material-icons">how_to_reg</i> Mark Attendance
+                </h4>
+                {% if name %}
+                    <p class="flow-text">Hello {{ name }}, mark attendance for {{ course }} - {{ year }}</p>
+                    <div class="chip">
+                        <i class="material-icons">date_range</i> {{ date }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
 
-    <form action="/" method="post">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">
+                            <i class="material-icons left">group</i>
+                            Student Attendance ({{ number }} students)
+                        </span>
 
-        {%  for i in range(1, number + 1) %}
-        <p>
-            {{ course }}-{{ year }}-{{ "%02d" %i }}: &emsp;
-            <label>
-                <input type="radio" name="roll_no{{ i }}" value="P">
-                <span>Present &emsp; </span>
-            </label>
-            <label>
-                <input type="radio" name="roll_no{{ i }}" value="A" checked="checked">
-                <span>Absent</span>
-            </label>
-            <br />
-            <br />
-        </p>
-        {% endfor %}
-        <br />
-        <br />
-        <br />
-        <button class="btn waves-effect waves-light" type="submit" name="action">Submit
-            <i class="material-icons right">send</i>
-        </button>
-    </form>
+                        <form action="/" method="post" id="attendanceForm">
+                            <!-- Hidden fields to preserve form data -->
+                            <input type="hidden" name="teacher_name" value="{{ name }}">
+                            <input type="hidden" name="course" value="{{ course }}">
+                            <input type="hidden" name="year" value="{{ year }}">
+                            <input type="hidden" name="date" value="{{ date }}">
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="card-panel blue lighten-5">
+                                        <p><strong>Instructions:</strong></p>
+                                        <ul>
+                                            <li>• Mark students as Present (P) or Absent (A)</li>
+                                            <li>• Only present students will be recorded in the blockchain</li>
+                                            <li>• All students are marked absent by default</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12">
+                                    <div class="attendance-controls center-align">
+                                        <button type="button" class="btn waves-effect waves-light green" onclick="markAllPresent()">
+                                            <i class="material-icons left">done_all</i>Mark All Present
+                                        </button>
+                                        <button type="button" class="btn waves-effect waves-light red" onclick="markAllAbsent()">
+                                            <i class="material-icons left">clear_all</i>Mark All Absent
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="attendance-list">
+                                {% for i in range(1, number + 1) %}
+                                <div class="row student-row">
+                                    <div class="col s12 m8 l6">
+                                        <div class="card-panel white">
+                                            <div class="student-info">
+                                                <strong>{{ course }}-{{ year }}-{{ "%02d" % i }}</strong>
+                                                <span class="grey-text">Roll Number</span>
+                                            </div>
+                                            <div class="attendance-options">
+                                                <p>
+                                                    <label>
+                                                        <input type="radio" name="roll_no{{ i }}" value="{{ course }}-{{ year }}-{{ '%02d' % i }}" class="present-radio">
+                                                        <span class="green-text">
+                                                            <i class="material-icons tiny">check_circle</i> Present
+                                                        </span>
+                                                    </label>
+                                                </p>
+                                                <p>
+                                                    <label>
+                                                        <input type="radio" name="roll_no{{ i }}" value="" checked="checked" class="absent-radio">
+                                                        <span class="red-text">
+                                                            <i class="material-icons tiny">cancel</i> Absent
+                                                        </span>
+                                                    </label>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+
+                            <div class="row">
+                                <div class="col s12 center-align">
+                                    <div class="card-panel blue lighten-5">
+                                        <p id="presentCount">Present: 0 students</p>
+                                    </div>
+                                    <button class="btn waves-effect waves-light blue large" type="submit">
+                                        <i class="material-icons left">save</i>Submit to Blockchain
+                                    </button>
+                                    <a href="/" class="btn waves-effect waves-light grey">
+                                        <i class="material-icons left">arrow_back</i>Back
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.js') }}"></script>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            M.AutoInit();
+            updatePresentCount();
+
+            // Add event listeners to all radio buttons
+            const radios = document.querySelectorAll('input[type="radio"]');
+            radios.forEach(radio => {
+                radio.addEventListener('change', updatePresentCount);
+            });
+        });
+
+        function markAllPresent() {
+            const presentRadios = document.querySelectorAll('.present-radio');
+            presentRadios.forEach(radio => {
+                radio.checked = true;
+            });
+            updatePresentCount();
+            M.toast({html: 'All students marked present', classes: 'green'});
+        }
+
+        function markAllAbsent() {
+            const absentRadios = document.querySelectorAll('.absent-radio');
+            absentRadios.forEach(radio => {
+                radio.checked = true;
+            });
+            updatePresentCount();
+            M.toast({html: 'All students marked absent', classes: 'red'});
+        }
+
+        function updatePresentCount() {
+            const presentRadios = document.querySelectorAll('.present-radio:checked');
+            const count = presentRadios.length;
+            document.getElementById('presentCount').textContent = `Present: ${count} students`;
+        }
+    </script>
+
+    <style>
+        .student-row {
+            margin-bottom: 10px;
+        }
+        .student-info {
+            margin-bottom: 10px;
+        }
+        .attendance-options p {
+            margin: 5px 0;
+        }
+        .attendance-controls {
+            margin: 20px 0;
+        }
+        .attendance-controls .btn {
+            margin: 5px;
+        }
+    </style>
 </body>
+</html>
