@@ -19,7 +19,7 @@ data = []
 def add_block(form):
     global data
     global previous_block
-    data.append([])# TODO retrieve correct records
+    data.append([])
     i = 1
     while form.get("roll_no{}".format(i)):
         data[len(data) - 1].append(form.get("roll_no{}".format(i)))
@@ -38,7 +38,7 @@ def findRecords(form):
             if block.data[1] == form.get("date"):
                 if block.data[2] == form.get("course"):
                     if block.data[3] == form.get("year"):
-                        return data[4]
+                        return block.data[4]
     return -1
 
 @app.route('/',  methods = ['GET'])
