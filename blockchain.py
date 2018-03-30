@@ -6,6 +6,8 @@ from genesis import create_genesis_block
 from newBlock import next_block
 from block import *
 
+# TODO CSS
+
 app = Flask(__name__)
 response = Response()
 response.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
