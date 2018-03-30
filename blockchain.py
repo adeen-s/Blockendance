@@ -1,12 +1,14 @@
 import datetime as dt
 import hashlib
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, Response
 
 from genesis import create_genesis_block
 from newBlock import *
 from block import *
 
 app = Flask(__name__)
+response = Response()
+response.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
 
 blockchain = create_genesis_block()
 previous_block = blockchain[0]
@@ -42,7 +44,9 @@ def parse_request():
         return render_template("class.html",
                                 name = request.form.get("name"),
                                 date = dt.date.today())
+
     elif(request.form.get("number")):
+        data = data[0:2]
         data.append(request.form.get("course"))
         data.append(request.form.get("year"))
         return render_template("attendance.html",
@@ -50,6 +54,7 @@ def parse_request():
                                 year = request.form.get("year"),
                                 number = int(request.form.get("number")))
     elif(request.form.get("roll_no1")):
+        data = data[0:4]
         return add_block(request.form)
 
     else:
