@@ -7,7 +7,7 @@
 {% endif %}
 
 <body>
-    <form action="/" method="post">
+    <form id="form" name="form" action="/" method="post">
         {% if not name %}
         <p>
             <label for="name">Your name</label>
@@ -36,4 +36,10 @@
         </p>
         <input type="submit" name="NextBtn" value="Next">
     </form>
+    <script type="text/javascript">
+        var form = document.getElementById("form") || null;
+        if(form) {
+            form.action = window.location.pathname;
+        }
+    </script>
 </body>

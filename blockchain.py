@@ -16,9 +16,9 @@ data = []
 
 def add_block(form):
     global data
-    data.append([])
-    i = 1
     global previous_block
+    data.append([])# TODO retrieve correct records
+    i = 1
     while form.get("roll_no{}".format(i)):
         data[len(data) - 1].append(form.get("roll_no{}".format(i)))
         i += 1
@@ -30,6 +30,15 @@ def add_block(form):
     print(data)
     return "Block #{} has been added to the blockchain!".format(block_to_add.index)
 
+def findRecords(form):
+    for block in blockchain:
+        if block.data[0] == form.get("name"):
+            if block.data[1] == form.get("date"):
+                if block.data[2] == form.get("course"):
+                    if block.data[3] == form.get("year"):
+                        return data[4]
+    return -1
+
 @app.route('/',  methods = ['GET'])
 def index():
     return render_template("index.html")
@@ -39,9 +48,17 @@ def view():
     return render_template("class.html")
 
 @app.route('/view.html',  methods = ['POST'])
-def view():
-    # TODO find the required block
-    return render_template("view.html")
+def show_records():
+    data = findRecords(request.form)
+    if data == -1:
+        return "Records not found"
+    return render_template("view.html",
+                            name = request.form.get("name"),
+                            course = request.form.get("course"),
+                            year = request.form.get("year"),
+                            status = data,
+                            number = int(request.form.get("number")),
+                            date = request.form.get("date"))
 
 @app.route('/', methods = ['POST'])
 def parse_request():

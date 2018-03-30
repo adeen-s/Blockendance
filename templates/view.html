@@ -4,12 +4,23 @@
 <body>
     Hello {{ name }}
     <br />
+    Date: &emsp; {{ date }}
+    <br />
     <br />
     {%  for i in range(1, number + 1) %}
-    {{ course }}-{{ year }}-{{ "%02d" %i }}: &emsp; {{ status }}
+    {{ course }}-{{ year }}-{{ "%02d" %i }}: &emsp; {{ status[i - 1] }}
     <br />
     <br />
     {% endfor %}
     <br />
+
+    <button type="button" id="button" name="button">Go Back</button>
+    <script type="text/javascript">
+        function goBack() {
+            window.open("/", "_self");
+        }
+        var button = document.getElementById("button");
+        button.addEventListener("click", goBack);
+    </script>
 
 </body>
