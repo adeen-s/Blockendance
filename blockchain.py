@@ -10,13 +10,15 @@ app = Flask(__name__)
 
 blockchain = create_genesis_block()
 previous_block = blockchain[0]
+data = []
 
 def add_block(form):
-    data = []
+    global data
+    data.append([])
     i = 1
     global previous_block
     while form.get("roll_no{}".format(i)):
-        data.append(form.get("roll_no{}".format(i)))
+        data[len(data) - 1].append(form.get("roll_no{}".format(i)))
         i += 1
     block_to_add = next_block(previous_block, data)
     blockchain.append(block_to_add)
@@ -32,11 +34,17 @@ def index():
 
 @app.route('/', methods = ['POST'])
 def parse_request():
+    global data
     if(request.form.get("name")):
+        data = []
+        data.append(request.form.get("name"))
+        data.append(str(dt.date.today()))
         return render_template("class.html",
                                 name = request.form.get("name"),
                                 date = dt.date.today())
     elif(request.form.get("number")):
+        data.append(request.form.get("course"))
+        data.append(request.form.get("year"))
         return render_template("attendance.html",
                                 course = request.form.get("course"),
                                 year = request.form.get("year"),
