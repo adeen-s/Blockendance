@@ -78,7 +78,7 @@ def parse_request():
         data.append(request.form.get("course"))
         data.append(request.form.get("year"))
         return render_template("attendance.html",
-                                name = data[0]
+                                name = data[0],
                                 course = request.form.get("course"),
                                 year = request.form.get("year"),
                                 number = int(request.form.get("number")))
