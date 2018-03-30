@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+<title>Attendance</title>
+
+<body>
+    <p>
+        {{ result }}
+    </p>
+    <br />
+    <button type="button" id="button" name="button">Go Back</button>
+    <script type="text/javascript">
+        function goBack() {
+            window.open(window.location.href, "_self");
+        }
+        var button = document.getElementById("button");
+        button.addEventListener("click", goBack);
+    </script>
+</body>
