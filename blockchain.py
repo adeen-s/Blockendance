@@ -34,6 +34,15 @@ def add_block(form):
 def index():
     return render_template("index.html")
 
+@app.route('/view.html',  methods = ['GET'])
+def view():
+    return render_template("class.html")
+
+@app.route('/view.html',  methods = ['POST'])
+def view():
+    # TODO find the required block
+    return render_template("view.html")
+
 @app.route('/', methods = ['POST'])
 def parse_request():
     global data

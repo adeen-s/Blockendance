@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+<body>
+    Hello {{ name }}
+    <br />
+    <br />
+    {%  for i in range(1, number + 1) %}
+    {{ course }}-{{ year }}-{{ "%02d" %i }}: &emsp; {{ status }}
+    <br />
+    <br />
+    {% endfor %}
+    <br />
+
+</body>
