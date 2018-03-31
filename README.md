@@ -64,12 +64,8 @@ $ pip install requests
 ```
 $ cd path/to/MiniProject
 ```
-- Specify the flask application by adding it to the environment variable.
+- Run the python app
 ```
-$ export FLASK_APP=blockchain.py
-```
-- Run the flask app
-```
-$ flask run
+$ python blockchain.py
 ```
 - Open a web browser and navigate to "http://localhost:5000" to use the application.
