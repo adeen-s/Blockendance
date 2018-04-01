@@ -2,7 +2,6 @@
 ---
 
 ##### TODO
-- Implement method to check integrity of blockchain
 - Add CSS
 
 Mini Project for the 4th semester of MCA 6 years course
