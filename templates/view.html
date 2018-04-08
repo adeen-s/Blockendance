@@ -5,26 +5,37 @@
 
 <title>Blockendance</title>
 
-<body>
-    Hello {{ name }}
+<body class="blue-grey lighten-4">
+    <h3>Hello {{ name }}, here is the attendance data</h3>
     <br />
-    Date: &emsp; {{ date }}
-    <br />
-    <br />
-    {%  for i in range(1, number + 1) %}
-    {{ course }}-{{ year }}-{{ "%02d" %i }}: &emsp; {{ status[i - 1] }}
+    <h6>Date: &emsp; {{ date }}</h6>
     <br />
     <br />
-    {% endfor %}
+    <table>
+        <thead>
+            <tr>
+                <th>Roll number</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%  for i in range(1, number + 1) %}
+            <tr>
+                <td>{{ course }}-{{ year }}-{{ "%02d" %i }}</td>
+                <td>{{ status[i - 1] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     <br />
 
-    <button type="button" id="button" name="button">Go Back</button>
+    <button class="btn waves-effect waves-light" type="button" id="button" name="button">Go Back</button>
     <script type="text/javascript">
-        function goBack() {
-            window.open("/", "_self");
-        }
-        var button = document.getElementById("button");
-        button.addEventListener("click", goBack);
+    function goBack() {
+        window.open("/", "_self");
+    }
+    var button = document.getElementById("button");
+    button.addEventListener("click", goBack);
     </script>
 
 </body>
