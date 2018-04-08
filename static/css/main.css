@@ -1,13 +1,5 @@
 body {
     max-width: 500px;
     margin: auto;
-    padding: 50px;
+    padding-top: 50px;
 }
-
-form  { display: table;      }
-
-p     { display: table-row;  }
-
-label { display: table-cell; }
-
-input { display: table-cell; }
