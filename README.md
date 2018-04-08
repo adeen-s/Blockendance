@@ -1,9 +1,6 @@
 ## E-Attendance using *Blockchain*
 ---
 
-##### TODO
-- Add CSS
-
 Mini Project for the 4th semester of MCA 6 years course
 
 #### Introduction
