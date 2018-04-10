@@ -1,0 +1,120 @@
+{
+  "metadata": {
+    "created": "2025-05-24 02:00:33.211871",
+    "total_blocks": 6,
+    "version": "1.0"
+  },
+  "blocks": [
+    {
+      "index": 0,
+      "timestamp": "2025-05-24 02:00:30.682706",
+      "data": {
+        "type": "genesis",
+        "message": "Genesis Block - Blockchain Initialized",
+        "creator": "Blockendance System"
+      },
+      "prev_hash": "0",
+      "hash": "2660865dee7df1a8dbde0eeab75f81a0ecec1248864c5b40b6b5742b673cc727"
+    },
+    {
+      "index": 1,
+      "timestamp": "2025-05-24 02:00:30.682803",
+      "data": {
+        "type": "attendance",
+        "teacher_name": "Dr. Sarah Johnson",
+        "date": "2018-04-01",
+        "course": "Computer Science",
+        "year": "2024",
+        "present_students": [
+          "CS-2024-01",
+          "CS-2024-03",
+          "CS-2024-05",
+          "CS-2024-07",
+          "CS-2024-09"
+        ]
+      },
+      "prev_hash": "2660865dee7df1a8dbde0eeab75f81a0ecec1248864c5b40b6b5742b673cc727",
+      "hash": "508ec374163c9997fe01c857e7fc2802e38387d47bf33885b56400ffaac30770"
+    },
+    {
+      "index": 2,
+      "timestamp": "2025-05-24 02:00:31.185382",
+      "data": {
+        "type": "attendance",
+        "teacher_name": "Prof. Michael Chen",
+        "date": "2018-04-01",
+        "course": "Mathematics",
+        "year": "2023",
+        "present_students": [
+          "MATH-2023-02",
+          "MATH-2023-04",
+          "MATH-2023-06",
+          "MATH-2023-08",
+          "MATH-2023-10",
+          "MATH-2023-12"
+        ]
+      },
+      "prev_hash": "508ec374163c9997fe01c857e7fc2802e38387d47bf33885b56400ffaac30770",
+      "hash": "1fd985c92fd64bd6554813d66333058cdc3182397d72750f2aa892a316fa9f36"
+    },
+    {
+      "index": 3,
+      "timestamp": "2025-05-24 02:00:31.697147",
+      "data": {
+        "type": "attendance",
+        "teacher_name": "Dr. Emily Rodriguez",
+        "date": "2018-04-02",
+        "course": "Physics",
+        "year": "2022",
+        "present_students": [
+          "PHY-2022-01",
+          "PHY-2022-03",
+          "PHY-2022-05"
+        ]
+      },
+      "prev_hash": "1fd985c92fd64bd6554813d66333058cdc3182397d72750f2aa892a316fa9f36",
+      "hash": "3a2a7309dc1927ea17a6e9ba638619ca148e448bf35f437604727e8e535645b0"
+    },
+    {
+      "index": 4,
+      "timestamp": "2025-05-24 02:00:32.205164",
+      "data": {
+        "type": "attendance",
+        "teacher_name": "Dr. Sarah Johnson",
+        "date": "2018-04-03",
+        "course": "Computer Science",
+        "year": "2024",
+        "present_students": [
+          "CS-2024-01",
+          "CS-2024-02",
+          "CS-2024-05",
+          "CS-2024-08"
+        ]
+      },
+      "prev_hash": "3a2a7309dc1927ea17a6e9ba638619ca148e448bf35f437604727e8e535645b0",
+      "hash": "3aa7aa7b6b03f3cf40d55593da5c667f577c95b0b7b1eb8d9f4b2073a4f70f00"
+    },
+    {
+      "index": 5,
+      "timestamp": "2025-05-24 02:00:32.710007",
+      "data": {
+        "type": "attendance",
+        "teacher_name": "Prof. David Wilson",
+        "date": "2018-04-03",
+        "course": "Chemistry",
+        "year": "2021",
+        "present_students": [
+          "CHEM-2021-01",
+          "CHEM-2021-02",
+          "CHEM-2021-04",
+          "CHEM-2021-06",
+          "CHEM-2021-07",
+          "CHEM-2021-09",
+          "CHEM-2021-11"
+        ]
+      },
+      "prev_hash": "3aa7aa7b6b03f3cf40d55593da5c667f577c95b0b7b1eb8d9f4b2073a4f70f00",
+      "hash": "5ef498dab53fddad43268c050e5ac9276e0b8a775c482229a741fd0b4833bd30"
+    }
+  ]
+}
