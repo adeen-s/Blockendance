@@ -3,12 +3,13 @@ import os
 import json
 import datetime as dt
 class Block:
-    def __init__(self, index, timestamp, data, prev_hash):
+    def __init__(self, index, timestamp, data, prev_hash, hash=None):
         self.index = index
         self.timestamp = timestamp
         self.data = data
         self.prev_hash = prev_hash
-        self.hash = self.hash_block()
+        if not hash:
+            self.hash = self.hash_block()
 
     def hash_block(self):
         sha = hashlib.sha256()
