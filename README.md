@@ -1,8 +1,6 @@
 ## E-Attendance using *Blockchain*
 ---
 
-Mini Project for the 4th semester of MCA 6 years course
-
 #### Introduction
 Blockchain is the technology behind cryptocurrencies such as Bitcoin, Ethereum, Litecoin etc.
 
@@ -69,3 +67,6 @@ $ cd path/to/MiniProject
 $ python blockchain.py
 ```
 - Open a web browser and navigate to "http://localhost:5000" to use the application.
+
+#### Copyright and License
+Copyright (c) 2018 Adeen Shukla - Released under the MIT License
