@@ -60,7 +60,7 @@ $ pip install requests
 - Open a Terminal
 - Navigate to the root folder of the project.
 ```
-$ cd path/to/MiniProject
+$ cd path/to/Blockendance
 ```
 - Run the python app
 ```
