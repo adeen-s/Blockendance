@@ -1,14 +1,14 @@
 ## E-Attendance using *Blockchain*
+###### Our project implements an E-Attendance system which stores student attendance data on a blockchain.
 ---
 
+![Gif of workflow](https://media.giphy.com/media/mxnAJxpllD9P80hGND/giphy.gif)
 #### Introduction
 Blockchain is the technology behind cryptocurrencies such as Bitcoin, Ethereum, Litecoin etc.
 
  A blockchain, is a list of records, called blocks, which are linked and secured using cryptography. Each block contains a cryptographic hash of the previous block, a timestamp and transaction data. The data, once entered in a block is immutable due to the way blockchains are designed.
 
 This concept of immutable digital data storage can be used for storing data securely, such as student attendance, medical records, and financial transactions, to prevent tampering with this data.
-
-###### Our project implements an E-Attendance system which stores student attendance data on a blockchain.
 
 #### Disclaimer and assumptions
 
