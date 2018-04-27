@@ -9,14 +9,18 @@ from genesis import create_genesis_block
 from newBlock import next_block, add_block
 from getBlock import find_records
 from checkChain import check_integrity
+from sync import sync
 
 # Flask declarations
 app = Flask(__name__)
 response = Response()
 response.headers.add('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0')
 
-# Initializing blockchain with the genesis block
-blockchain = create_genesis_block()
+# Initializing blockchain
+blockchain = sync()
+if not blockchain:
+    blockchain = create_genesis_block()
+    blockchain[0].save_file()
 data = []
 
 # Default Landing page of the app
@@ -81,4 +85,4 @@ def check():
 
 # Start the flask app when program is executed
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
