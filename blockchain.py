@@ -7,6 +7,8 @@ from genesis import create_blockchain
 from newBlock import add_block
 from getBlock import find_records, get_all_attendance_records
 from checkChain import check_integrity, get_blockchain_stats
+from persistence import save_blockchain, load_blockchain, export_blockchain_csv
+from analytics import get_attendance_analytics, generate_attendance_report, export_analytics
 
 # Flask declarations
 app = Flask(__name__)
@@ -19,7 +21,17 @@ def after_request(response):
     return response
 
 # Initializing blockchain with the genesis block
-blockchain = create_blockchain()
+# Try to load existing blockchain first
+loaded_blockchain, load_message = load_blockchain()
+if loaded_blockchain:
+    blockchain = loaded_blockchain
+    print(f"Loaded existing blockchain: {load_message}")
+else:
+    blockchain = create_blockchain()
+    print(f"Created new blockchain: {load_message}")
+    # Save the new blockchain
+    save_blockchain(blockchain)
+
 print(f"Blockchain initialized with genesis block: {blockchain[0]}")
 
 # Default Landing page of the app
@@ -88,6 +100,15 @@ def parse_request():
                                      result="Error: Missing required information")
 
             result = add_block(request.form, form_data, blockchain)
+
+            # Auto-save blockchain after adding new block
+            if "added" in result:
+                save_success, save_msg = save_blockchain(blockchain)
+                if save_success:
+                    result += f" Blockchain automatically saved."
+                else:
+                    result += f" Warning: Failed to save blockchain - {save_msg}"
+
             return render_template("result.html", result=result)
 
         else:
@@ -181,6 +202,61 @@ def api_records():
     try:
         records = get_all_attendance_records(blockchain)
         return jsonify({"records": records, "count": len(records)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# API endpoint to get analytics
+@app.route('/api/analytics', methods=['GET'])
+def api_analytics():
+    try:
+        analytics = get_attendance_analytics(blockchain)
+        return jsonify(analytics)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# API endpoint to export data
+@app.route('/api/export/<format>', methods=['GET'])
+def api_export(format):
+    try:
+        if format == 'csv':
+            success, message = export_blockchain_csv(blockchain)
+            return jsonify({"success": success, "message": message})
+        elif format == 'analytics':
+            success, message = export_analytics(blockchain)
+            return jsonify({"success": success, "message": message})
+        elif format == 'json':
+            success, message = save_blockchain(blockchain)
+            return jsonify({"success": success, "message": message})
+        else:
+            return jsonify({"error": "Invalid export format"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# API endpoint to get attendance report
+@app.route('/api/report', methods=['GET'])
+def api_report():
+    try:
+        format_type = request.args.get('format', 'json')
+        if format_type == 'text':
+            report = generate_attendance_report(blockchain, format='text')
+            return report, 200, {'Content-Type': 'text/plain'}
+        else:
+            report = generate_attendance_report(blockchain, format='json')
+            return report, 200, {'Content-Type': 'application/json'}
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# API endpoint to load blockchain from file
+@app.route('/api/load', methods=['POST'])
+def api_load():
+    try:
+        global blockchain
+        loaded_blockchain, message = load_blockchain()
+        if loaded_blockchain:
+            blockchain = loaded_blockchain
+            return jsonify({"success": True, "message": message, "blocks": len(blockchain)})
+        else:
+            return jsonify({"success": False, "message": message}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

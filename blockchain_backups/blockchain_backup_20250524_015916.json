@@ -1,0 +1,74 @@
+{
+  "metadata": {
+    "created": "2025-05-24 01:59:16.389084",
+    "total_blocks": 4,
+    "version": "1.0"
+  },
+  "blocks": [
+    {
+      "index": 0,
+      "timestamp": "2025-05-24 01:59:16.388844",
+      "data": {
+        "type": "genesis",
+        "message": "Genesis Block - Blockchain Initialized",
+        "creator": "Blockendance System"
+      },
+      "prev_hash": "0",
+      "hash": "be8241224fef93f12ba700ad7d07c5fa87293f23c225245255b5fa765e185ff6"
+    },
+    {
+      "index": 1,
+      "timestamp": "2025-05-24 01:59:16.388897",
+      "data": {
+        "type": "attendance",
+        "teacher_name": "Dr. Smith",
+        "date": "2018-03-16",
+        "course": "Computer Science",
+        "year": "2024",
+        "present_students": [
+          "CS-2024-01",
+          "CS-2024-03",
+          "CS-2024-05"
+        ]
+      },
+      "prev_hash": "be8241224fef93f12ba700ad7d07c5fa87293f23c225245255b5fa765e185ff6",
+      "hash": "e5e89206ea2761c72ec28ffbb344e9803808e3e31e97775484fe55819ac2ba15"
+    },
+    {
+      "index": 2,
+      "timestamp": "2025-05-24 01:59:16.388933",
+      "data": {
+        "type": "attendance",
+        "teacher_name": "Prof. Johnson",
+        "date": "2018-03-17",
+        "course": "Mathematics",
+        "year": "2023",
+        "present_students": [
+          "MATH-2023-02",
+          "MATH-2023-04",
+          "MATH-2023-06",
+          "MATH-2023-08"
+        ]
+      },
+      "prev_hash": "e5e89206ea2761c72ec28ffbb344e9803808e3e31e97775484fe55819ac2ba15",
+      "hash": "0297a1b66020b2ecd194e56ed76dfc731dbdc02014fc43cce8c16cc72e5da076"
+    },
+    {
+      "index": 3,
+      "timestamp": "2025-05-24 01:59:16.388951",
+      "data": {
+        "type": "attendance",
+        "teacher_name": "Dr. Wilson",
+        "date": "2018-03-18",
+        "course": "Physics",
+        "year": "2022",
+        "present_students": [
+          "PHY-2022-01",
+          "PHY-2022-02"
+        ]
+      },
+      "prev_hash": "0297a1b66020b2ecd194e56ed76dfc731dbdc02014fc43cce8c16cc72e5da076",
+      "hash": "2fa37f131a23b501f2342a52957813ef2f2e0541320520d9dd1bcfafa1886978"
+    }
+  ]
+}
